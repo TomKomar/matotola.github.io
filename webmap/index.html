@@ -8,15 +8,10 @@
         <meta name="apple-mobile-web-app-capable" content="yes">
         <link rel="stylesheet" href="css/leaflet.css">
         <link rel="stylesheet" href="css/qgis2web.css"><link rel="stylesheet" href="css/fontawesome-all.min.css">
-        <link rel="stylesheet" href="css/MarkerCluster.css">
-        <link rel="stylesheet" href="css/MarkerCluster.Default.css">
         <style>
-        #map {
-            width: 1310px;
-            height: 834px;
-        }
+            html, body { height: 100%; width: 100%; margin: 0;} #map { width: 95%; height: 95%; margin: 0 auto;}
         </style>
-        <title></title>
+        <title>Water Quality Mapping</title>
     </head>
     <body>
         <div id="map">
@@ -30,12 +25,11 @@
         <script src="js/rbush.min.js"></script>
         <script src="js/labelgun.min.js"></script>
         <script src="js/labels.js"></script>
-        <script src="js/leaflet.markercluster.js"></script>
         <script src="data/water_quality_1.js"></script>
         <script>
         var map = L.map('map', {
             zoomControl:true, maxZoom:27, minZoom:1
-        }).fitBounds([[-6.989897,39.21305967],[-6.85853014,39.20305967]]);
+        }).fitBounds([[27.597315,85.294829],[27.743040,85.384897]]);
         var hash = new L.Hash(map);
         map.attributionControl.setPrefix('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a> &middot; <a href="https://leafletjs.com" title="A JS library for interactive maps">Leaflet</a> &middot; <a href="https://qgis.org">QGIS</a>');
         var bounds_group = new L.featureGroup([]);
@@ -54,10 +48,7 @@
         function pop_water_quality_1(feature, layer) {
             var popupContent = '<table>\
                     <tr>\
-                        <td colspan="2">' + (feature.properties['id'] !== null ? Autolinker.link(feature.properties['id'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2"><strong>name</strong><br />' + (feature.properties['name'] !== null ? Autolinker.link(feature.properties['name'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                        <td colspan="2">' + (feature.properties['name'] !== null ? Autolinker.link(feature.properties['name'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
                     </tr>\
                     <tr>\
                         <td colspan="2">' + (feature.properties['source'] !== null ? Autolinker.link(feature.properties['source'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
@@ -67,7 +58,7 @@
         }
 
         function style_water_quality_1_0(feature) {
-            switch(String(feature.properties['source'])) {
+            switch(String(feature.properties['id'])) {
                 case 'borehole':
                     return {
                 pane: 'pane_water_quality_1',
@@ -216,14 +207,10 @@
                 return L.circleMarker(latlng, style_water_quality_1_0(feature));
             },
         });
-        var cluster_water_quality_1 = new L.MarkerClusterGroup({showCoverageOnHover: false,
-            spiderfyDistanceMultiplier: 2});
-        cluster_water_quality_1.addLayer(layer_water_quality_1);
-
         bounds_group.addLayer(layer_water_quality_1);
-        cluster_water_quality_1.addTo(map);
+        map.addLayer(layer_water_quality_1);
         var baseMaps = {};
-        L.control.layers(baseMaps,{'water_quality<br /><table><tr><td style="text-align: center;"><img src="legend/water_quality_1_borehole0.png" /></td><td>borehole</td></tr><tr><td style="text-align: center;"><img src="legend/water_quality_1_bottlewater1.png" /></td><td>bottlewater</td></tr><tr><td style="text-align: center;"><img src="legend/water_quality_1_piezometer2.png" /></td><td>piezometer</td></tr><tr><td style="text-align: center;"><img src="legend/water_quality_1_river3.png" /></td><td>river</td></tr><tr><td style="text-align: center;"><img src="legend/water_quality_1_shallowwell4.png" /></td><td>shallowwell</td></tr><tr><td style="text-align: center;"><img src="legend/water_quality_1_stonespouts5.png" /></td><td>stonespouts</td></tr><tr><td style="text-align: center;"><img src="legend/water_quality_1_tapwater6.png" /></td><td>tap_water</td></tr><tr><td style="text-align: center;"><img src="legend/water_quality_1_7.png" /></td><td></td></tr></table>': cluster_water_quality_1,"OSM Standard": layer_OSMStandard_0,},{collapsed:false}).addTo(map);
+        L.control.layers(baseMaps,{'water_quality<br /><table><tr><td style="text-align: center;"><img src="legend/water_quality_1_borehole0.png" /></td><td>borehole</td></tr><tr><td style="text-align: center;"><img src="legend/water_quality_1_bottlewater1.png" /></td><td>bottlewater</td></tr><tr><td style="text-align: center;"><img src="legend/water_quality_1_piezometer2.png" /></td><td>piezometer</td></tr><tr><td style="text-align: center;"><img src="legend/water_quality_1_river3.png" /></td><td>river</td></tr><tr><td style="text-align: center;"><img src="legend/water_quality_1_shallowwell4.png" /></td><td>shallowwell</td></tr><tr><td style="text-align: center;"><img src="legend/water_quality_1_stonespouts5.png" /></td><td>stonespouts</td></tr><tr><td style="text-align: center;"><img src="legend/water_quality_1_tapwater6.png" /></td><td>tap_water</td></tr><tr><td style="text-align: center;"><img src="legend/water_quality_1_7.png" /></td><td></td></tr></table>': layer_water_quality_1,"OSM Standard": layer_OSMStandard_0,}).addTo(map);
         setBounds();
         </script>
     </body>
